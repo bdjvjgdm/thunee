@@ -2,17 +2,25 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sổ Tay Kỷ Niệm 8/3 - Art Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Sổ Tay Kỷ Niệm 8/3 - 12A1 Special</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
     <style>
       :root {
-        --book-width: 420px;
-        --book-height: 580px;
-        --bg-color: #f4e7e4;
-        --page-color: #fffaf0;
-        --cover-color: #b03060;
-        --text-color: #4a4a4a;
-        --accent-color: #d81b60;
+        --book-width: 90vw;
+        --book-height: 70vh;
+        --max-width: 400px;
+        --max-height: 550px;
+        --bg-color: #fdf2f0;
+        --page-color: #fffaf5;
+        --cover-color: #a32650;
+        --text-color: #3d3d3d;
+        --accent-color: #c2185b;
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
       }
 
       body {
@@ -21,71 +29,45 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        background-color: var(--bg-color);
-        background-image: radial-gradient(
-          circle at center,
-          #fdf5f2 0%,
-          #e8d5d1 100%
-        );
-        perspective: 2000px;
+        background: radial-gradient(circle, #fff5f7 0%, #f4dada 100%);
+        perspective: 1500px;
         overflow: hidden;
-        font-family: "Times New Roman", Times, serif;
+        font-family: 'Quicksand', sans-serif;
       }
 
-      /* Nút điều khiển nhạc */
+      /* Nhạc */
       #music-control {
         position: fixed;
-        top: 20px;
-        right: 20px;
+        top: 15px;
+        right: 15px;
         z-index: 1000;
-        background: rgba(216, 27, 96, 0.2);
+        background: white;
         padding: 10px;
         border-radius: 50%;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         cursor: pointer;
-        border: 2px solid var(--accent-color);
-        transition: all 0.3s;
         display: flex;
+        width: 40px;
+        height: 40px;
         align-items: center;
         justify-content: center;
-        width: 45px;
-        height: 45px;
       }
 
-      #music-control:hover {
-        background: rgba(216, 27, 96, 0.4);
-        transform: scale(1.1);
-      }
-
-      .music-icon {
-        font-size: 24px;
-      }
-
-      /* Hiệu ứng cánh hoa hồng rơi */
+      /* Cánh hoa rơi */
       .petal {
         position: absolute;
         background: #ffc0cb;
         border-radius: 150% 0 150% 0;
         opacity: 0.6;
         pointer-events: none;
-        z-index: 100;
+        z-index: 1;
         animation: fall linear infinite;
       }
 
       @keyframes fall {
-        0% {
-          transform: translateY(-10vh) rotate(0deg) translateX(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 0.8;
-        }
-        90% {
-          opacity: 0.8;
-        }
-        100% {
-          transform: translateY(110vh) rotate(720deg) translateX(100px);
-          opacity: 0;
-        }
+        0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+        15% { opacity: 0.7; }
+        100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; }
       }
 
       /* Cuốn sách */
@@ -93,22 +75,11 @@
         position: relative;
         width: var(--book-width);
         height: var(--book-height);
-        transition: transform 0.5s;
+        max-width: var(--max-width);
+        max-height: var(--max-height);
         transform-style: preserve-3d;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-      }
-
-      /* Gáy sách ảo */
-      .book::before {
-        content: "";
-        position: absolute;
-        left: -5px;
-        top: 0;
-        width: 10px;
-        height: 100%;
-        background: #8b2346;
-        transform: translateZ(-1px);
-        border-radius: 5px 0 0 5px;
+        transition: transform 0.5s;
+        box-shadow: 20px 20px 40px rgba(0,0,0,0.2);
       }
 
       .page {
@@ -119,462 +90,235 @@
         left: 0;
         transform-origin: left;
         transform-style: preserve-3d;
-        transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
         cursor: pointer;
       }
 
-      .front,
-      .back {
+      .front, .back {
         position: absolute;
         width: 100%;
         height: 100%;
         top: 0;
         left: 0;
         background-color: var(--page-color);
-        box-sizing: border-box;
-        padding: 40px;
+        padding: 30px 25px;
         backface-visibility: hidden;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: inset 3px 0 10px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0,0,0,0.05);
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         overflow: hidden;
       }
 
-      .front::after,
-      .back::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
-        opacity: 0.3;
-        pointer-events: none;
+      /* Giấy thật hơn */
+      .front {
+        background: linear-gradient(to right, #ffffff 0%, #fffaf5 5%, #fffaf5 100%);
+        border-radius: 0 10px 10px 0;
       }
 
       .back {
         transform: rotateY(180deg);
+        background: linear-gradient(to left, #ffffff 0%, #fffaf5 5%, #fffaf5 100%);
+        border-radius: 10px 0 0 10px;
       }
 
       .page.flipped {
         transform: rotateY(-180deg);
       }
 
-      .page .front {
-        transition: background 0.6s;
-      }
-      .page.flipped .front {
-        background: #dcdcdc;
+      /* Bìa */
+      .cover-front {
+        background: linear-gradient(135deg, var(--cover-color) 0%, #8b1d42 100%) !important;
+        color: white !important;
+        border-left: 8px solid #63112c;
       }
 
-      /* Nội dung văn bản */
-      h2 {
-        color: var(--accent-color);
-        margin-bottom: 20px;
-        font-family: "Dancing Script", cursive;
-        font-size: 1.8rem;
+      .cover-back {
+        background: var(--cover-color) !important;
+        color: white !important;
+        border-right: 8px solid #63112c;
       }
-      p {
-        color: var(--text-color);
-        line-height: 1.8;
-        font-style: italic;
-        font-size: 1.15rem;
-        text-align: justify;
-      }
+
+      /* Nội dung */
+      h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; text-align: center; margin: 10px 0; }
+      h2 { font-family: 'Dancing Script', cursive; color: var(--accent-color); font-size: 1.6rem; margin: 5px 0; }
+      p { font-size: 0.95rem; line-height: 1.6; text-align: center; color: #555; margin: 10px 0; }
 
       .photo-frame {
-        width: 90%;
-        height: 280px;
-        background-color: #fff;
-        padding: 10px;
-        border: 1px solid #ddd;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        transform: rotate(-2deg);
-        margin-bottom: 20px;
+        width: 85%;
+        background: white;
+        padding: 8px 8px 25px 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        border: 1px solid #eee;
+        margin-bottom: 15px;
       }
 
       .photo-frame img {
         width: 100%;
-        height: 100%;
+        height: 180px;
         object-fit: cover;
-        filter: sepia(10%);
+        display: block;
       }
 
-      /* Bìa sách */
-      .cover-front {
-        background: var(--cover-color);
-        color: #fffce0;
-        border-radius: 0 5px 5px 0;
-        border-left: 10px solid #8b2346;
-      }
-      .cover-front h1 {
-        font-size: 2.5rem;
-        text-align: center;
-        font-family: "Playfair Display", serif;
-      }
-      .cover-front .decoration {
-        font-size: 3rem;
-        margin: 30px 0;
-      }
-
-      .cover-back {
-        background: var(--cover-color);
-        color: #fffce0;
-        border-radius: 5px 0 0 5px;
-        border-right: 10px solid #8b2346;
-      }
-
-      /* Nút chuyển trang mới */
       .btn-redirect {
-        margin-top: 25px;
-        padding: 12px 25px;
-        background-color: #fff;
-        color: var(--cover-color);
-        border: none;
-        border-radius: 25px;
-        font-family: "Playfair Display", serif;
-        font-weight: bold;
-        font-size: 1rem;
-        cursor: pointer;
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: white;
+        color: var(--accent-color);
         text-decoration: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        animation: pulse 2s infinite;
-      }
-
-      .btn-redirect:hover {
-        transform: scale(1.05);
-        background-color: var(--accent-color);
-        color: #fff;
-      }
-
-      @keyframes pulse {
-        0% {
-          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-        }
-        70% {
-          box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-        }
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       }
 
       .hint {
-        position: absolute;
-        bottom: 30px;
+        position: fixed;
+        bottom: 20px;
+        font-size: 0.8rem;
         color: var(--accent-color);
-        font-size: 0.9rem;
-        letter-spacing: 2px;
-        animation: breathe 2s infinite;
+        letter-spacing: 1px;
+        font-weight: bold;
+        animation: pulse 2s infinite;
       }
 
-      @keyframes breathe {
-        0%,
-        100% {
-          opacity: 0.4;
-        }
-        50% {
-          opacity: 1;
-        }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
       }
 
-      /* Import Fonts */
-      @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap");
+      /* Hiệu ứng bóng trang */
+      .page::after {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none;
+        background: linear-gradient(to right, rgba(0,0,0,0.1) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.05) 100%);
+      }
     </style>
   </head>
   <body>
-    <!-- Trình phát nhạc -->
-    <audio id="bg-music" loop preload="auto">
-      <source
-        src="Cảm Ơn Người Đã Thức Cùng Tôi (Original Soundtrack) - Phùng Khánh Linh (1).mp3"
-        type="audio/mpeg"
-      />
+
+    <audio id="bg-music" loop>
+      <source src="Cảm Ơn Người Đã Thức Cùng Tôi (Original Soundtrack) - Phùng Khánh Linh (1).mp3" type="audio/mpeg" />
     </audio>
 
     <div id="music-control" onclick="toggleMusic()">
-      <span class="music-icon" id="music-icon">🔇</span>
+      <span id="music-icon">🔇</span>
     </div>
 
     <div class="book" id="book">
-      <!-- Trang 1: Bìa -->
       <div class="page" onclick="flipPage(this)">
         <div class="front cover-front">
-          <div class="decoration">✿</div>
-          <h1>Gửi Các Bạn Nữ Yêu Dấu</h1>
-          <p style="color: #f8bbd0; text-align: center">
-            Chạm vào trái tim để mở ra...
-          </p>
-          <div style="font-size: 40px; margin-top: 30px">❤️</div>
+          <div style="font-size: 3rem">🌸</div>
+          <h1>Gửi Nữ Sinh 12A1</h1>
+          <p style="color: #ffc1e3">Món quà nhỏ từ trái tim các bạn nam</p>
+          <p style="font-size: 0.8rem; margin-top: 20px;">(Chạm vào trang để lật)</p>
+          <div style="margin-top: 20px">❤️</div>
         </div>
         <div class="back">
           <div class="photo-frame" style="transform: rotate(2deg)">
-            <img
-              src="photo_6154363414625586952_y.jpg"
-              alt="Ảnh kỷ niệm 1"
-            />
+            <img src="photo_6154363414625586952_y.jpg" alt="Ảnh 1">
           </div>
-          <h2>Hành Trình Yêu Thương</h2>
-          <p>
-            Mỗi tấm hình là một câu chuyện, mỗi nụ cười là một món quà vô giá mà
-            cuộc sống đã ban tặng.
-          </p>
+          <h2>Kỷ Niệm Đầu</h2>
+          <p>Mỗi tấm hình là một mảnh ghép của thanh xuân chúng mình.</p>
         </div>
       </div>
 
-      <!-- Các trang tiếp theo giữ nguyên cấu trúc -->
       <div class="page" onclick="flipPage(this)">
         <div class="front">
-          <h2>Ngày Của Em</h2>
-          <p>
-            "Các em không cần phải là một nàng công chúa trong cổ tích, bởi vì với
-            các anh, các em đã là điều tuyệt vời nhất ở thế giới thực này rồi. Chúc mừng
-            ngày 8/3!"
-          </p>
-          <div style="font-size: 30px">🎁</div>
-        </div>
-        <div class="back">
-          <div class="photo-frame" style="transform: rotate(-3deg)">
-            <img
-              src="photo_6154363414625586946_y.jpg"
-              alt="Ảnh kỷ niệm 2"
-            />
-          </div>
-          <h2>Vẻ Đẹp Tâm Hồn</h2>
-          <p>
-            Dịu dàng nhưng đầy kiên cường, các em là nguồn cảm hứng lớn nhất để các anh
-            hoàn thiện mình mỗi ngày.
-          </p>
-        </div>
-      </div>
-
-      <!-- Trang 3 -->
-      <div class="page" onclick="flipPage(this)">
-        <div class="front">
-          <h2>Sức Mạnh Diệu Kỳ</h2>
-          <p>
-            "Thế giới này trở nên dịu dàng và đáng sống hơn rất nhiều bởi vì có
-            sự hiện diện của những người phụ nữ như các em. Cảm ơn các em vì sự mạnh mẽ
-            tiềm ẩn ấy."
-          </p>
-          <div style="font-size: 30px">✨</div>
-        </div>
-        <div class="back">
-          <div class="photo-frame" style="transform: rotate(1deg)">
-            <img
-              src="photo_6154363414625586957_y.jpg"
-              alt="Ảnh kỷ niệm 3"
-            />
-          </div>
-          <h2>Cùng Nhau Quyết Chiến</h2>
-          <p>
-            Chúng ta một cá nhân của tập thể 12A1 hãy cùng nhau trở thành phiên bản tốt nhất của mình nhé
-          </p>
-        </div>
-      </div>
-
-      <!-- Trang 4 -->
-      <div class="page" onclick="flipPage(this)">
-        <div class="front">
-          <h2>Bình Yên Là Em</h2>
-          <p>
-            "Giữa những xô bồ của cuộc sống, em chính là bến đỗ bình yên nhất mà
-            anh luôn muốn tìm về sau mỗi ngày mệt mỏi."
-          </p>
-          <div style="font-size: 30px">☕</div>
+          <h2>Gửi Những Bông Hoa</h2>
+          <p>"Không cần là công chúa, các bạn vẫn luôn tỏa sáng theo cách riêng của mình. Chúc các bạn 8/3 rạng rỡ!"</p>
+          <div style="font-size: 2rem">✨</div>
         </div>
         <div class="back">
           <div class="photo-frame" style="transform: rotate(-2deg)">
-            <img
-              src="photo_6154363414625586959_y.jpg"
-              alt="Ảnh kỷ niệm 4"
-            />
+            <img src="photo_6154363414625586946_y.jpg" alt="Ảnh 2">
           </div>
-          <h2>Kỷ Niệm</h2>
-          <p>
-            Nhớ hình này không mấy bạn kkkk lúc đó vui nhỉ.
-          </p>
+          <h2>Năng Lượng 12A1</h2>
+          <p>Dịu dàng nhưng vô cùng mạnh mẽ, đó chính là các bạn!</p>
         </div>
       </div>
 
-      <!-- Trang 5 -->
       <div class="page" onclick="flipPage(this)">
         <div class="front">
-          <h2>Người Phụ Nữ Tự Tin</h2>
-          <p>
-            "Hãy cứ rạng rỡ và tự tin là chính mình em nhé. Vẻ đẹp tỏa ra từ sự
-            tự tin của em chính là thứ trang sức lộng lẫy nhất."
-          </p>
-          <div style="font-size: 30px">💃</div>
+          <h2>Sức Mạnh Diệu Kỳ</h2>
+          <p>"Cảm ơn các bạn đã biến lớp 12A1 trở thành một gia đình đầy ắp tiếng cười và sự ấm áp."</p>
+          <div style="font-size: 2rem">🌷</div>
         </div>
         <div class="back">
-          <div class="photo-frame" style="transform: rotate(3deg)">
-            <img
-              src="photo_6154363414625586945_y.jpg"
-              alt="Ảnh kỷ niệm 5"
-            />
+          <div class="photo-frame">
+            <img src="photo_6154363414625586957_y.jpg" alt="Ảnh 3">
           </div>
-          <h2>Rực Rỡ Như Hoa</h2>
-          <p>
-            Hoa chỉ nở một mùa, nhưng nụ cười của các em trong trái tim các anh sẽ mãi
-            mãi không bao giờ héo tàn hahahaha.
-          </p>
+          <h2>Cùng Nhau Cố Gắng</h2>
+          <p>Chặng đường cuối cấp, hãy cùng nhau tạo nên những dấu ấn khó phai nhé.</p>
         </div>
       </div>
 
-      <!-- Trang 6 -->
       <div class="page" onclick="flipPage(this)">
         <div class="front">
-          <h2>Kỷ Niệm Khó Quên</h2>
-          <p>
-            "Cảm ơn em đã cùng anh tạo nên những thước phim đẹp nhất của tuổi
-            trẻ. Anh sẽ luôn lưu giữ chúng ở nơi ấm áp nhất trong tâm hồn."
-          </p>
-          <div style="font-size: 30px">📸</div>
-        </div>
-        <div class="back">
-          <div class="photo-frame" style="transform: rotate(-1deg)">
-            <img
-              src="photo_6154363414625586956_y.jpg"
-              alt="Ảnh kỷ niệm 6"
-            />
-          </div>
-          <h2>Phía Sau Một Tình Yêu</h2>
-          <p>
-            Đó là sự thấu hiểu, là sự bao dung và là những giây phút chúng ta
-            thực sự thuộc về nhau.
-          </p>
-        </div>
-      </div>
-
-      <!-- Trang 7 -->
-      <div class="page" onclick="flipPage(this)">
-        <div class="front">
-          <h2>Hẹn Ước Tương Lai</h2>
-          <p>
-            "Dù ngày mai có ra sao, anh vẫn muốn được là người cầm tay em đi qua
-            mọi giông bão. Chúc em một ngày 8/3 tràn đầy tình yêu!"
-          </p>
-          <div style="font-size: 30px">⏳</div>
-        </div>
-        <div class="back">
-          <div class="photo-frame" style="transform: rotate(2deg)">
-            <img
-              src="photo_6154363414625586946_y.jpg"
-              alt="Ảnh kỷ niệm 7"
-            />
-          </div>
-          <h2>Mãi Là Của Nhau</h2>
-          <p>
-            Trang sách này khép lại, nhưng hành trình của chúng ta sẽ mở ra
-            những chương mới rạng rỡ hơn.
-          </p>
-        </div>
-      </div>
-
-      <!-- Trang cuối -->
-      <div class="page" onclick="flipPage(this)">
-        <div class="front">
-          <h2>Lời Cảm Ơn</h2>
-          <p>
-            "Cảm ơn các em vì đã xuất hiện, đã trở thành một phần của ký ức tươi
-            đẹp thời học sinh"
-          </p>
-          <div style="font-size: 30px">💐</div>
+          <h2>Lời Cuối</h2>
+          <p>"Dù sau này mỗi người một ngả, mong các bạn vẫn luôn giữ nụ cười hồn nhiên này trên môi."</p>
+          <div style="font-size: 2rem">💝</div>
         </div>
         <div class="back cover-back">
           <h1>Hạnh Phúc Nhé!</h1>
-          <p style="color: #f8bbd0; text-align: center">
-            Mãi mãi một tình yêu ❤️
-          </p>
-          <p style="color: #fff; font-size: 0.8rem; margin-top: 10px">
-            - Ký tên: TẬP THỂ NAM 12A1 -
-          </p>
-
-          <a
-            href="https://bdjvjgdm.github.io/project-8-/"
-            target="_blank"
-            class="btn-redirect"
-            onclick="event.stopPropagation()"
-          >
-            Xem Thêm Bất Ngờ 🎁
+          <p style="color: #ffc1e3">Mãi mãi là một phần của nhau ❤️</p>
+          <p style="font-size: 0.7rem; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px">TEAM NAM 12A1</p>
+          
+          <a href="https://bdjvjgdm.github.io/project-8-/" target="_blank" class="btn-redirect" onclick="event.stopPropagation()">
+            Món Quà Bí Mật 🎁
           </a>
         </div>
       </div>
     </div>
 
-    <div class="hint">NHẤP ĐỂ LẬT TRANG</div>
+    <div class="hint">VUỐT HOẶC CHẠM ĐỂ XEM</div>
 
     <script>
       const music = document.getElementById("bg-music");
       const musicIcon = document.getElementById("music-icon");
       let isPlaying = false;
-      let playPromise;
 
-      // Hàm điều khiển nhạc an toàn hơn với xử lý Promise
       async function toggleMusic() {
         try {
           if (isPlaying) {
-            // Nếu play() đang chạy dở, chúng ta đợi nó xong rồi mới pause
-            if (playPromise !== undefined) {
-              await playPromise;
-            }
             music.pause();
             musicIcon.innerText = "🔇";
-            isPlaying = false;
           } else {
-            playPromise = music.play();
-            if (playPromise !== undefined) {
-              await playPromise;
-              musicIcon.innerText = "🔊";
-              isPlaying = true;
-            }
+            await music.play();
+            musicIcon.innerText = "🔊";
           }
-        } catch (error) {
-          console.log("Music play blocked or interrupted:", error);
-          isPlaying = false;
-          musicIcon.innerText = "🔇";
-        }
+          isPlaying = !isPlaying;
+        } catch (e) {}
       }
 
       function flipPage(page) {
         page.classList.toggle("flipped");
         updateZIndex();
-
-        // Chỉ cố gắng khởi động nhạc nếu nó chưa phát
-        if (!isPlaying) {
-          toggleMusic();
-        }
+        if (!isPlaying) toggleMusic();
       }
 
       function updateZIndex() {
         const pages = document.querySelectorAll(".page");
         pages.forEach((p, index) => {
-          if (p.classList.contains("flipped")) {
-            p.style.zIndex = index;
-          } else {
-            p.style.zIndex = pages.length - index;
-          }
+          p.style.zIndex = p.classList.contains("flipped") ? index : pages.length - index;
         });
       }
 
       function createPetals() {
-        const container = document.body;
-        for (let i = 0; i < 45; i++) {
+        for (let i = 0; i < 25; i++) {
           const petal = document.createElement("div");
           petal.className = "petal";
-          const size = Math.random() * 15 + 10;
-          petal.style.width = size + "px";
-          petal.style.height = size + "px";
+          const size = Math.random() * 10 + 10 + "px";
+          petal.style.width = size;
+          petal.style.height = size;
           petal.style.left = Math.random() * 100 + "vw";
-          petal.style.animationDuration = Math.random() * 5 + 5 + "s";
-          petal.style.animationDelay = Math.random() * 10 + "s";
-          petal.style.opacity = Math.random() * 0.5 + 0.3;
-          container.appendChild(petal);
+          petal.style.animationDuration = Math.random() * 3 + 4 + "s";
+          petal.style.animationDelay = Math.random() * 5 + "s";
+          document.body.appendChild(petal);
         }
       }
 
@@ -585,5 +329,6 @@
     </script>
   </body>
 </html>
+
 
 
